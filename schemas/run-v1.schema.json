@@ -1,0 +1,572 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "infeasible_idle",
+              "event_limit",
+              "unfinished",
+              "rejected",
+              "deadline_missed"
+            ]
+          },
+          "job": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "base_w": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "cap_w": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      }
+    },
+    "event_trace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "time": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "event": {
+            "enum": [
+              "released",
+              "rejected",
+              "started",
+              "interrupted",
+              "completed",
+              "resource_changed"
+            ]
+          },
+          "job": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "node": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "change": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "lost_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "rate": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "attempt": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10240000
+          },
+          "retained_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          }
+        },
+        "required": [
+          "time",
+          "event"
+        ]
+      }
+    },
+    "resource_samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "start": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "end": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "site_power_w": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "nodes": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "node": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+                },
+                "available": {
+                  "type": "boolean"
+                },
+                "slots": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "memory": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "used_slots": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "used_memory": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "rate_per_slot": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+                },
+                "power_w": {
+                  "type": "string",
+                  "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+                },
+                "jobs": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+                  }
+                },
+                "reserved_slots": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                },
+                "reserved_memory": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1000000000000
+                }
+              },
+              "required": [
+                "node",
+                "available",
+                "slots",
+                "memory",
+                "used_slots",
+                "used_memory",
+                "rate_per_slot",
+                "power_w",
+                "jobs",
+                "reserved_slots",
+                "reserved_memory"
+              ]
+            },
+            "maxItems": 64
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "site_power_w",
+          "nodes"
+        ]
+      },
+      "maxItems": 20000
+    },
+    "job_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "job": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "status": {
+            "enum": [
+              "completed",
+              "rejected",
+              "unfinished"
+            ]
+          },
+          "state_at_end": {
+            "enum": [
+              "unreleased",
+              "queued",
+              "running",
+              "completed",
+              "rejected"
+            ]
+          },
+          "node_at_end": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rejection_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "first_start": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "completion": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "deadline_missed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "requested_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "executed_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "retained_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "lost_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "remaining_work": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+          },
+          "interruptions": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "accepted_work_payment": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "attempts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10240000
+          },
+          "resource_kind": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "checkpoint": {
+            "enum": [
+              "whole-job-restart",
+              "ideal-resume"
+            ]
+          }
+        },
+        "required": [
+          "job",
+          "status",
+          "state_at_end",
+          "node_at_end",
+          "rejection_reason",
+          "first_start",
+          "completion",
+          "deadline_missed",
+          "requested_work",
+          "executed_work",
+          "retained_work",
+          "lost_work",
+          "remaining_work",
+          "interruptions",
+          "accepted_work_payment",
+          "attempts",
+          "resource_kind",
+          "checkpoint"
+        ]
+      },
+      "maxItems": 512
+    },
+    "energy_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "coverage_start": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "coverage_end": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "idle_ws": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "active_increment_ws": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "auxiliary_ws": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "total_ws": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "total_kwh": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "nodes": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "idle_ws": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              },
+              "active_increment_ws": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              },
+              "active_seconds": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+              }
+            },
+            "required": [
+              "idle_ws",
+              "active_increment_ws",
+              "active_seconds"
+            ]
+          }
+        }
+      },
+      "required": [
+        "coverage_start",
+        "coverage_end",
+        "idle_ws",
+        "active_increment_ws",
+        "auxiliary_ws",
+        "total_ws",
+        "total_kwh",
+        "nodes"
+      ]
+    },
+    "cost_ledger": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+        },
+        "energy_cost": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "compute_cost": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "active_node_hours": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "accepted_work_payment": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "declared_payment_subtotal": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        }
+      },
+      "required": [
+        "currency",
+        "energy_cost",
+        "compute_cost",
+        "active_node_hours",
+        "accepted_work_payment",
+        "declared_payment_subtotal"
+      ]
+    },
+    "run_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "simulator_version": {
+          "const": "0.2.0"
+        },
+        "scenario_version": {
+          "const": 1
+        },
+        "source_status": {
+          "const": "IMPLEMENTED_UNVERIFIED"
+        },
+        "tests": {
+          "const": "NOT_RUN"
+        },
+        "requested_horizon": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "simulated_until": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$"
+        },
+        "horizon_reached": {
+          "type": "boolean"
+        },
+        "event_budget_exhausted": {
+          "type": "boolean"
+        },
+        "processed_batches": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scenario_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "scheduler": {
+          "enum": [
+            "fifo",
+            "fit-first"
+          ]
+        },
+        "checkpoint_policy": {
+          "const": "per-job-default-whole-job-restart"
+        },
+        "policy_version": {
+          "const": "1"
+        },
+        "model_version": {
+          "const": "causal-capacity-v2"
+        }
+      },
+      "required": [
+        "simulator_version",
+        "scenario_version",
+        "source_status",
+        "tests",
+        "requested_horizon",
+        "simulated_until",
+        "horizon_reached",
+        "event_budget_exhausted",
+        "processed_batches",
+        "scenario_sha256",
+        "scheduler",
+        "checkpoint_policy",
+        "policy_version",
+        "model_version"
+      ]
+    }
+  },
+  "required": [
+    "version",
+    "findings",
+    "event_trace",
+    "resource_samples",
+    "job_outcomes",
+    "energy_ledger",
+    "cost_ledger",
+    "run_manifest"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:compute-cluster-sim:run:1",
+  "title": "Run report v1 (HELD for independent review)",
+  "$comment": "Run reports only; CLI fatal diagnostic objects are described in README. Semantic conservation is not expressed by this structural schema."
+}

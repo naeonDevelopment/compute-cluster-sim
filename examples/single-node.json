@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "horizon": 10,
+  "site": {
+    "auxiliary_w": 5,
+    "cap_w": 100,
+    "price_per_kwh": 1,
+    "currency": "synthetic_unit"
+  },
+  "changes": [],
+  "nodes": [
+    {
+      "id": "n",
+      "kind": "cpu",
+      "slots": 1,
+      "memory": 8,
+      "rate": 2,
+      "idle_w": 10,
+      "active_w": 30
+    }
+  ],
+  "jobs": [
+    {
+      "id": "a",
+      "kind": "cpu",
+      "release": 0,
+      "work": 8,
+      "slots": 1,
+      "memory": 4,
+      "priority": 0,
+      "deadline": null,
+      "preemptible": true
+    }
+  ]
+}

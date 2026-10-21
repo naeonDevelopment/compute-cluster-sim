@@ -1,0 +1,445 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "horizon": {
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000000000
+        },
+        {
+          "type": "string",
+          "maxLength": 32,
+          "pattern": "^[1-9][0-9]*(/[1-9][0-9]*)?$"
+        }
+      ]
+    },
+    "site": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "auxiliary_w": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000000
+            },
+            {
+              "type": "string",
+              "maxLength": 32,
+              "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+            }
+          ]
+        },
+        "cap_w": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000000
+            },
+            {
+              "type": "string",
+              "maxLength": 32,
+              "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+            }
+          ]
+        },
+        "price_per_kwh": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000000
+            },
+            {
+              "type": "string",
+              "maxLength": 32,
+              "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+            }
+          ]
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+        },
+        "compute_hour_cost": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000000000
+            },
+            {
+              "type": "string",
+              "maxLength": 32,
+              "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+            }
+          ]
+        }
+      },
+      "required": [
+        "auxiliary_w",
+        "cap_w",
+        "price_per_kwh",
+        "currency"
+      ]
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "slots": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000000
+          },
+          "memory": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "rate": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^[1-9][0-9]*(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "idle_w": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "active_w": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reserved_slots": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "reserved_memory": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "slots",
+          "memory",
+          "rate",
+          "idle_w",
+          "active_w"
+        ]
+      },
+      "maxItems": 64
+    },
+    "jobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "kind": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "release": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "work": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^[1-9][0-9]*(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "slots": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000000
+          },
+          "memory": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "priority": {
+            "type": "integer",
+            "minimum": -1000000,
+            "maximum": 1000000
+          },
+          "deadline": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1000000000000
+                  },
+                  {
+                    "type": "string",
+                    "maxLength": 32,
+                    "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "preemptible": {
+            "type": "boolean"
+          },
+          "accepted_work_payment": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "checkpoint": {
+            "enum": [
+              "whole-job-restart",
+              "ideal-resume"
+            ],
+            "default": "whole-job-restart"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "release",
+          "work",
+          "slots",
+          "memory",
+          "priority",
+          "deadline",
+          "preemptible"
+        ]
+      },
+      "maxItems": 512
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "time": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^(0|[1-9][0-9]*)(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "node": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+          },
+          "reason": {
+            "enum": [
+              "recall",
+              "failure",
+              "recovery",
+              "capacity",
+              "rate",
+              "reservation"
+            ]
+          },
+          "slots": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "memory": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "rate": {
+            "oneOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000000
+              },
+              {
+                "type": "string",
+                "maxLength": 32,
+                "pattern": "^[1-9][0-9]*(/[1-9][0-9]*)?$"
+              }
+            ]
+          },
+          "available": {
+            "type": "boolean"
+          },
+          "reserved_slots": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          },
+          "reserved_memory": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000000
+          }
+        },
+        "required": [
+          "id",
+          "time",
+          "node",
+          "reason"
+        ],
+        "anyOf": [
+          {
+            "required": [
+              "slots"
+            ]
+          },
+          {
+            "required": [
+              "memory"
+            ]
+          },
+          {
+            "required": [
+              "rate"
+            ]
+          },
+          {
+            "required": [
+              "available"
+            ]
+          },
+          {
+            "required": [
+              "reserved_slots"
+            ]
+          },
+          {
+            "required": [
+              "reserved_memory"
+            ]
+          }
+        ]
+      },
+      "maxItems": 512
+    },
+    "max_events": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 20000
+    },
+    "scheduler": {
+      "enum": [
+        "fifo",
+        "fit-first"
+      ],
+      "default": "fifo"
+    }
+  },
+  "required": [
+    "version",
+    "horizon",
+    "site",
+    "nodes",
+    "jobs",
+    "changes"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:compute-cluster-sim:scenario:1",
+  "title": "Scenario v1 (HELD for independent review)",
+  "$comment": "Parser additionally checks byte size, ratio magnitude/denominator, horizon, duplicate JSON keys/IDs, cross-field relations, reason constraints and dangling references. Unknown fields rejected. Owner floors default to zero and must fit capacity at every ordered change. Tape validation is input consistency only, never scheduling foresight."
+}

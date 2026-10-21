@@ -1,0 +1,118 @@
+name: Qualified fleet witnesses (manual only)
+on:
+  workflow_dispatch:
+    inputs:
+      campaign:
+        description: Exact owner-authorized campaign
+        type: choice
+        required: true
+        options:
+          - apocryph-compute-20261021
+      runner_route:
+        description: Explicit owner fleet route (no fallback)
+        type: choice
+        required: true
+        default: naevum-vps-amd64
+        options:
+          - naevum-vps-amd64
+          - ci-linux-arm64
+      owner_qualified_runner:
+        description: Coordinator confirms owner-qualified existing runner
+        type: boolean
+        required: true
+        default: false
+      judge_surfaces_reviewed:
+        description: Independent coordinator reviewed source tests schemas and workflow at this commit
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: read
+jobs:
+  witnesses:
+    if: >-
+      ${{ inputs.campaign == 'apocryph-compute-20261021' &&
+          inputs.owner_qualified_runner && inputs.judge_surfaces_reviewed &&
+          (inputs.runner_route == 'naevum-vps-amd64' || inputs.runner_route == 'ci-linux-arm64') }}
+    # This ARC installation has only its route label, no extra platform labels.
+    runs-on: ${{ inputs.runner_route }}
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: src
+      PYTHONDONTWRITEBYTECODE: '1'
+      CAMPAIGN: ${{ inputs.campaign }}
+      ROUTE: ${{ inputs.runner_route }}
+      OWNER_QUALIFIED: ${{ inputs.owner_qualified_runner }}
+      JUDGE_REVIEWED: ${{ inputs.judge_surfaces_reviewed }}
+      ACTUAL_ENVIRONMENT: ${{ runner.environment }}
+      ACTUAL_OS: ${{ runner.os }}
+      ACTUAL_ARCH: ${{ runner.arch }}
+      EXPECTED_COMMIT: ${{ github.sha }}
+    steps:
+      - name: Validate campaign and trusted runner before checkout or product execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$CAMPAIGN" = apocryph-compute-20261021
+          test "$OWNER_QUALIFIED" = true
+          test "$JUDGE_REVIEWED" = true
+          test "$ACTUAL_ENVIRONMENT" = self-hosted
+          test "$ACTUAL_OS" = Linux
+          test "$(uname -s)" = Linux
+          case "$ROUTE" in
+            naevum-vps-amd64)
+              test "$ACTUAL_ARCH" = X64
+              test "$(uname -m)" = x86_64
+              ;;
+            ci-linux-arm64)
+              test "$ACTUAL_ARCH" = ARM64
+              test "$(uname -m)" = aarch64
+              ;;
+            *) exit 1 ;;
+          esac
+          printf 'campaign=%s route=%s environment=%s os=%s arch=%s commit=%s\n' \
+            "$CAMPAIGN" "$ROUTE" "$ACTUAL_ENVIRONMENT" "$ACTUAL_OS" "$ACTUAL_ARCH" "$EXPECTED_COMMIT"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Record exact checked-out commit and preinstalled toolchain
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED_COMMIT"
+          git rev-parse HEAD
+          git --version
+          command -v python3
+          python3 --version
+          python3 -c 'import platform, sys; print(sys.version); print(platform.platform()); assert sys.version_info >= (3, 11)'
+      - name: Baseline and release specification witnesses including export smoke
+        shell: bash
+        run: python3 -m unittest discover -s tests -v
+      - name: All analytical scenario CLI witnesses
+        shell: bash
+        run: |
+          set -euo pipefail
+          for scenario in examples/*.json; do
+            case "$scenario" in
+              examples/analytical-expectations.json) continue ;;
+            esac
+            python3 -m compute_cluster_sim "$scenario"
+          done
+      - name: JSON lines CLI export smoke
+        shell: bash
+        run: |
+          set -euo pipefail
+          smoke_dir="$(mktemp -d)"
+          trap 'rm -rf -- "$smoke_dir"' EXIT
+          python3 -m compute_cluster_sim examples/ideal-resume.json --run-id fleet-smoke --export-jsonl "$smoke_dir/service.jsonl"
+          python3 - "$smoke_dir/service.jsonl" <<'PY'
+          from pathlib import Path
+          import sys
+          from compute_cluster_sim.service_export import load_jsonl
+          records = load_jsonl(Path(sys.argv[1]).read_bytes())
+          assert len(records) == 1
+          r = records[0]
+          assert (r['job_id'], r['attempt'], r['useful_work'], r['completion']) == ('a', 2, '8/1', '6/1')
+          assert load_jsonl(Path('examples/synthetic-service-v1.jsonl').read_bytes())
+          print('synthetic service export smoke passed')
+          PY

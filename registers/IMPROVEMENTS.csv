@@ -1,0 +1,16 @@
+id,status,area,next_action,evidence
+I001,HELD,Independent review,Review new tests schemas workflow and analytical oracles,No self-approval
+I002,UNMEASURED,Runner enrollment,Owner qualify existing self-hosted fleet,No enrollment or dispatch performed
+I003,NOT_RUN,Behavioral verification,Execute approved unittest witnesses on qualified fleet,No local product execution
+I004,OPEN,Conservative backfill,Specify reservation proof and no-delay witnesses,Fit-first implemented unverified with no reservation guarantee
+I005,IMPLEMENTED_UNVERIFIED,Owner capacity floors,Independently review and run floor witnesses,Per-node slots and memory protected; tenant sharing remains OPEN
+I006,IMPLEMENTED_UNVERIFIED,Ideal checkpoint resume,Review restart versus resume witness,Zero overhead upper bound only; realistic checkpoint and migration remain OPEN
+I007,OPEN,Dynamic topology,Specify node addition and changing site cap,Rejected or absent in v1
+I008,OPEN,Specialist adapters,Qualify versions licences profiles and protocols,No integration exists
+I009,OPEN,Hardware validation,Design independent measurements and uncertainty records,Synthetic assumptions only
+I010,OPEN,Carbon and inference SLO,Define profile-based semantics,No carbon or token-rate model
+I011,OPEN,Resource limits,Measure worst-case exact arithmetic and memory on fleet,Finite structural bounds only
+I012,HELD,Acceptance compute-cluster-sim.whitespace,Obtain external acceptance verdict,Local whitespace inspection is not approval
+I013,IMPLEMENTED_UNVERIFIED,Causal scheduling,Review future-tape prefix witnesses,Policy receives current snapshots only; FIFO and explicit fit-first
+I014,HELD,Synthetic service export,Review schema contract and negative identity witnesses,Versioned completed-service JSONL; no acceptance or payment claims
+I015,NOT_RUN,Named owner campaign,Independent coordinator review then manual fleet CI,apocryph-compute-20261021; explicit route with no fallback

@@ -1,0 +1,80 @@
+{
+  "status": "ANALYTICAL_NOT_MEASURED",
+  "review": "HELD",
+  "description": "Hand-computed partial oracles; not recorded simulator outputs. See docs/EXPERIMENTS.md.",
+  "cases": {
+    "single-node": {
+      "completion": {
+        "a": "4/1"
+      },
+      "lost_work": {
+        "a": "0/1"
+      },
+      "total_ws": "230/1",
+      "exit": 0
+    },
+    "heterogeneous-queue": {
+      "completion": {
+        "a": "2/1",
+        "b": "2/1",
+        "c": "4/1"
+      },
+      "total_ws": "370/1",
+      "exit": 0
+    },
+    "recall-capacity": {
+      "completion": {
+        "a": "8/1",
+        "b": "12/1"
+      },
+      "lost_work": {
+        "a": "4/1",
+        "b": "2/1"
+      },
+      "total_ws": "380/1",
+      "exit": 0
+    },
+    "power-limited": {
+      "completion": {
+        "a": "2/1",
+        "b": "4/1"
+      },
+      "total_ws": "330/1",
+      "exit": 0
+    },
+    "ideal-resume": {
+      "completion": {
+        "a": "6/1"
+      },
+      "lost_work": {
+        "a": "0/1"
+      },
+      "total_ws": "230/1",
+      "exit": 0
+    },
+    "owner-floor": {
+      "completion": {
+        "a": "2/1",
+        "b": "4/1"
+      },
+      "total_ws": "230/1",
+      "exit": 0
+    },
+    "fit-first": {
+      "completion": {
+        "running": "4/1",
+        "head": "8/1",
+        "tail": "2/1"
+      },
+      "total_ws": "430/1",
+      "exit": 0
+    },
+    "causal-growth": {
+      "completion": {
+        "a": "4/1"
+      },
+      "total_ws": "190/1",
+      "exit": 0
+    }
+  }
+}

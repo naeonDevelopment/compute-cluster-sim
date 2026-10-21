@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:compute-cluster-sim:synthetic-service:1",
+  "title": "Synthetic completed service v1 (HELD for independent review)",
+  "$comment": "One JSON-lines record. Batch <=512 records and <=4 MiB. Parser also checks reduced positive ratios, quantity bounds, denominator <=1e9 for useful_work, completion <=1e6, duplicate job identities. External applications decide acceptance; no authenticity claim.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "integer",
+      "const": 1
+    },
+    "synthetic": {
+      "const": true
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+    },
+    "attempt": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10240000
+    },
+    "resource_kind": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+    },
+    "service_unit": {
+      "const": "synthetic_work"
+    },
+    "useful_work": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$",
+      "maxLength": 32
+    },
+    "completed": {
+      "const": true
+    },
+    "completion": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)/[1-9][0-9]*$",
+      "maxLength": 4096
+    }
+  },
+  "required": [
+    "version",
+    "synthetic",
+    "scenario_id",
+    "run_id",
+    "job_id",
+    "attempt",
+    "resource_kind",
+    "service_unit",
+    "useful_work",
+    "completed",
+    "completion"
+  ]
+}
