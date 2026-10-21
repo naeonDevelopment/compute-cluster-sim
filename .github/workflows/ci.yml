@@ -44,12 +44,13 @@ jobs:
       ROUTE: ${{ inputs.runner_route }}
       OWNER_QUALIFIED: ${{ inputs.owner_qualified_runner }}
       JUDGE_REVIEWED: ${{ inputs.judge_surfaces_reviewed }}
-      ACTUAL_ENVIRONMENT: ${{ runner.environment }}
-      ACTUAL_OS: ${{ runner.os }}
-      ACTUAL_ARCH: ${{ runner.arch }}
       EXPECTED_COMMIT: ${{ github.sha }}
     steps:
       - name: Validate campaign and trusted runner before checkout or product execution
+        env:
+          ACTUAL_ENVIRONMENT: ${{ runner.environment }}
+          ACTUAL_OS: ${{ runner.os }}
+          ACTUAL_ARCH: ${{ runner.arch }}
         shell: bash
         run: |
           set -euo pipefail

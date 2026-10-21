@@ -124,3 +124,51 @@ realistic checkpoints, future reservations/EASY, per-tenant sharing, cross-node
 execution/power preemption, dynamic topology/site caps, physical network/thermal
 models, calibrated profiles, commerce acceptance/attestation/payment, deployment
 integration and full digital-twin validation remain outside this release.
+
+## Workflow correction work order b74c06bf4409 (2026-10-22)
+
+Initial measured branch: `vagus/2026-10-21-correct-observed-actions-schema-a6e976`.
+HEAD: `fdc95501bad0426eeb36921eea211d5857b7944c`; worktree clean and source
+already present. No restoration or source rewrite was needed.
+
+Observed before: the operator reported dispatch HTTP422 and invalid-workflow run
+`39675935038`, rejected before product execution because runner contexts appeared
+in job-level `env`. This remains a workflow validation failure, not a product
+test outcome. Separate coordinator-observed frozen-source fleet results are
+recorded with exact environment and scope in
+[the dated qualification note](QUALIFICATION-2026-10-22.md).
+
+The correction moves only `ACTUAL_ENVIRONMENT`, `ACTUAL_OS` and `ACTUAL_ARCH`
+bindings to the first gate step's `env`. The workflow diff preserves shell text,
+campaign/review/runner/source gates, explicit route selection, manual-only
+trigger, pinned checkout and all execution steps. No defaults, installs or
+artifact uploads were added. Documentation/register changes scope this evidence
+and extend the existing campaign amendment only to this authorized correction.
+
+Static checks actually performed:
+
+- Original and corrected workflow YAML parsed with preinstalled Psych 5.3.1.
+  Corrected structure confirms only `workflow_dispatch`, no runner contexts in
+  job-level `env`, and the exact three runner bindings in the first step's `env`.
+  Context placement was inspected against GitHub's official availability table,
+  linked in CAMPAIGN.md. No additional concrete YAML validity issue was found.
+  This is not GitHub Actions service validation; actionlint was unavailable.
+- All five runtime shell blocks passed `bash -n`; no block was executed.
+- `git diff --exit-code fdc95501bad0426eeb36921eea211d5857b7944c -- src tests
+  examples schemas pyproject.toml` returned 0: protected source/checker/fixture
+  and packaging content is unchanged from the frozen source.
+- All 43 worktree text files scanned for trailing whitespace, carriage returns
+  and final newlines; relative Markdown link targets exist. The improvement
+  register parses as 17 data rows with five columns and unique IDs.
+- `git diff --check` returned 0. Initial attempts to compare parsed YAML through
+  `git show` and to enumerate files through a Python Git subprocess were blocked
+  by sandbox path restrictions. Those attempts supplied no validation evidence;
+  permitted direct Git diffs and worktree file scans supplied the checks above.
+
+This revision's source/behavior tests and corrected own-workflow execution remain
+NOT_RUN until a valid owner-fleet run. No local product execution, tests, builds,
+installation, fleet/remote/deployment effects, worker dispatch or commits occurred.
+Vagus owns commits; its receipt remains HELD for judge edits. Independent review
+and later external CI acceptance are separate. Acceptance
+`compute-cluster-sim.whitespace`: external verdict UNMEASURED; local whitespace
+checks are not that verdict. The operator handles final workflow state and run.

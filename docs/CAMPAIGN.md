@@ -25,7 +25,10 @@ Installation facts are owner-supplied constraints, not measurements by this work
 A trusted shell gate runs before checkout/product execution. It verifies the
 campaign, review booleans, runner.environment=self-hosted, runner.os=Linux,
 `uname -s`, and route-specific runner.arch plus `uname -m` (X64/x86_64 or
-ARM64/aarch64). Context/input values enter shell through environment variables,
+ARM64/aarch64). Runner contexts are bound in the gate step's `env`, where
+[GitHub permits them](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability),
+not the job's `env`. The job-level `github` and `inputs` bindings remain valid.
+Context/input values enter shell through environment variables,
 never expression interpolation into shell text. The checkout remains pinned to
 `11bd71901bbe5b1630ceea73d27597364c9af683`, with credentials persistence disabled.
 The job compares checked-out HEAD to github.sha and logs the exact commit,
@@ -38,3 +41,9 @@ smoke and the standalone example record. Logs are evidence for that exact run;
 they do not rewrite the historical NOT_RUN status or establish hardware accuracy.
 The source manifest labels remain release provenance, not live CI attestation.
 There is no simulator deployment target or worker remote/fleet effect in this order.
+
+The [2026-10-22 qualification note](QUALIFICATION-2026-10-22.md) distinguishes
+the observed own-workflow parse failure from coordinator-observed frozen-source
+fleet evidence. The correction remains HELD for independent judge review;
+its source/behavior tests and corrected own-workflow execution remain NOT_RUN.
+The operator reports the draft workflow disabled and handles its final state/run.

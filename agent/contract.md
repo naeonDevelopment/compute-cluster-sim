@@ -39,6 +39,25 @@ Historical NOT_RUN evidence remains historical. Product execution for work
 order bd62548f87cc stays NOT_RUN. No deployment target is defined by this
 simulator release, and this amendment grants no worker deployment effects.
 
+### Owner-authorized workflow correction (2026-10-22)
+
+For the same campaign only, work order `b74c06bf4409` may correct the observed
+Actions context-placement failure in source
+`fdc95501bad0426eeb36921eea211d5857b7944c` and directly necessary documentation,
+register and contract references. All source, tests, fixtures, schemas, expected
+outcomes and existing gates must remain unchanged in semantics. Static inspection
+is permitted; worker product execution remains NOT_RUN. Vagus owns the commit;
+the coordinator independently reviews the correction and handles any final
+owner-fleet workflow run and workflow enablement. No other authority is expanded.
+
+The earlier HTTP422/invalid-workflow run `39675935038` failed before product
+execution and remains recorded. Separate coordinator-observed fleet evidence for
+the frozen source is scoped in [the qualification note](../docs/QUALIFICATION-2026-10-22.md);
+it does not validate this workflow correction or replace historical NOT_RUN
+records. The correction's Vagus receipt is HELD for judge edits, separately from
+later external CI acceptance. This revision's source/behavior tests remain
+NOT_RUN until a valid owner-fleet run.
+
 Source status: IMPLEMENTED_UNVERIFIED. Tests: NOT_RUN. New judge surfaces
 (tests, expected results, schemas, CI and acceptance definitions) are HELD for
 independent owner review, never self-approved. The requested acceptance name is

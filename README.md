@@ -9,6 +9,10 @@ data-center digital twin. No novelty, hardware accuracy or performance claim.
 **Source: IMPLEMENTED_UNVERIFIED. Tests: NOT_RUN. Runner enrollment: UNMEASURED.**
 Tests, schemas, analytical expectations and CI are new judge surfaces **HELD**
 for independent review. No product code, tests or builds were executed locally.
+These labels retain release provenance. See the dated
+[qualification note](docs/QUALIFICATION-2026-10-22.md) for coordinator-observed
+frozen-source fleet results and the separate own-workflow parse failure.
+The workflow correction and this revision's source/behavior tests remain NOT_RUN.
 
 Python >=3.11, no runtime dependencies. The source-tree CLI is
 `PYTHONPATH=src python3 -m compute_cluster_sim examples/single-node.json`.

@@ -14,3 +14,5 @@ I012,HELD,Acceptance compute-cluster-sim.whitespace,Obtain external acceptance v
 I013,IMPLEMENTED_UNVERIFIED,Causal scheduling,Review future-tape prefix witnesses,Policy receives current snapshots only; FIFO and explicit fit-first
 I014,HELD,Synthetic service export,Review schema contract and negative identity witnesses,Versioned completed-service JSONL; no acceptance or payment claims
 I015,NOT_RUN,Named owner campaign,Independent coordinator review then manual fleet CI,apocryph-compute-20261021; explicit route with no fallback
+I016,HELD,Actions context placement,Review correction then operator runs own workflow,HTTP422 and invalid-workflow run 39675935038 before product tests; b74c06bf4409 execution NOT_RUN; Vagus receipt separate from external CI acceptance
+I017,COORDINATOR_OBSERVED,Frozen-source qualification,Retain exact scope in docs/QUALIFICATION-2026-10-22.md,fdc95501bad0426eeb36921eea211d5857b7944c; Linux ARM64 Python 3.12.3; 42 unittest functions plus 8 scenarios and incorrect-oracle rejection passed; independent control-plane workflow only
